@@ -7,14 +7,16 @@
 #
 # 2022 (c) catomatik@gmail.com
 
+PASSWORD=""
+
 cd $HOME/massa/massa-client
 
-massa_wallet_address=$(./massa-client -j wallet_info | jq -r '.[].address_info.address')
-balance=$( ./massa-client -j wallet_info | jq -r '.[].address_info.balance.final_ledger_info.balance')
+massa_wallet_address=$(./massa-client -p $PASSWORD -j wallet_info | jq -r '.[].address_info.address')
+balance=$( ./massa-client -p $PASSWORD -j wallet_info | jq -r '.[].address_info.balance.final_ledger_info.balance')
 int_balance=${balance%%.*}
-active_rolls=$( ./massa-client -j wallet_info | jq -r '.[].address_info.rolls.active_rolls')
-final_rolls=$( ./massa-client -j wallet_info | jq -r '.[].address_info.rolls.final_rolls')
-candidate_rolls=$( ./massa-client -j wallet_info | jq -r '.[].address_info.rolls.candidate_rolls')
+active_rolls=$( ./massa-client -p $PASSWORD -j wallet_info | jq -r '.[].address_info.rolls.active_rolls')
+final_rolls=$( ./massa-client -p $PASSWORD -j wallet_info | jq -r '.[].address_info.rolls.final_rolls')
+candidate_rolls=$( ./massa-client -p $PASSWORD -j wallet_info | jq -r '.[].address_info.rolls.candidate_rolls')
 
 echo Address: $massa_wallet_address 
 echo Balance: $balance
