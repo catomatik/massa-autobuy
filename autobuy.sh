@@ -1,5 +1,5 @@
 #!/bin/bash
-# Autobuy script for Massa 9.2
+# Autobuy script for Massa 14.x
 # Add to crontab for every minute
 # crontab -e
 #
