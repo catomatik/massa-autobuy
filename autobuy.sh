@@ -12,7 +12,7 @@ PASSWORD=""
 cd $HOME/massa/massa-client
 
 massa_wallet_address=$(./massa-client -p $PASSWORD -j wallet_info | jq -r '.[].address_info.address')
-balance=$( ./massa-client -p $PASSWORD -j wallet_info | jq -r '.[].address_info.final_sequential_balance')
+balance=$( ./massa-client -p $PASSWORD -j wallet_info | jq -r '.[].address_info.final_balance')
 [ "$balance" = 'null' ] && balance=0
 int_balance=${balance%%.*}
 active_rolls=$( ./massa-client -p $PASSWORD -j wallet_info | jq -r '.[].address_info.active_rolls')
