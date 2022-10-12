@@ -1,5 +1,5 @@
 #!/bin/bash
-# Autobuy script for Massa 14.x
+# Autobuy script for Massa 15.x
 # Add to crontab for every minute
 # crontab -e
 #
@@ -13,6 +13,7 @@ cd $HOME/massa/massa-client
 
 massa_wallet_address=$(./massa-client -p $PASSWORD -j wallet_info | jq -r '.[].address_info.address')
 balance=$( ./massa-client -p $PASSWORD -j wallet_info | jq -r '.[].address_info.final_sequential_balance')
+[ "$balance" = 'null' ] && balance=0
 int_balance=${balance%%.*}
 active_rolls=$( ./massa-client -p $PASSWORD -j wallet_info | jq -r '.[].address_info.active_rolls')
 final_rolls=$( ./massa-client -p $PASSWORD -j wallet_info | jq -r '.[].address_info.final_rolls')
