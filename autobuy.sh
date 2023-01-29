@@ -43,7 +43,7 @@ check_error() {
 	fi
 }
 
-#alert_telegram "test message"
+# Check running massa-node
 check_error "massa-not-running" "pgrep massa-node &> /dev/null" "Massa: node not runnning"
 
 massa_wallet_info=$(./massa-client -p $PASSWORD -j wallet_info)
@@ -56,6 +56,7 @@ active_rolls=$(echo $massa_wallet_info | jq -r '.[].address_info.active_rolls' 2
 final_rolls=$(echo $massa_wallet_info | jq -r '.[].address_info.final_rolls' 2> /dev/null)
 candidate_rolls=$(echo $massa_wallet_info | jq -r '.[].address_info.candidate_rolls' 2> /dev/null)
 
+# Check wallet info (it is null if node did'nt bootstrap)
 check_error "massa-no-wallet-info" "[ $massa_wallet_address != 'null' ]" "Massa: cannot get wallet info, node is'nt bootstrapped or other error"
 
 echo Address: $massa_wallet_address
@@ -64,6 +65,7 @@ echo Active rolls: $active_rolls
 echo Final rolls: $final_rolls
 echo Candidate rolls: $candidate_rolls
 
+# CHeck wallet ballance and rolls, alert if no rolls and balance to buy
 check_error "massa-not-enough-balance" \
 	    "[ $int_balance -ge 100 ] || [ $active_rolls -gt 0 ] || [ $final_rolls -gt 0 ] || [ $candidate_rolls -gt 0 ]" \
 	    "Massa: no rolls and not enough balance to buy"
